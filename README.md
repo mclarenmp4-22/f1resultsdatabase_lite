@@ -6,4 +6,5 @@ Use writedb.py to update the database.
 If there's an error in the database, or you just want to initiallise it, run reset.py
 
 The data for this database is sourced from [GP Racing Stats](https://gpracingstats.com/).
+
 **Limitations:** It only contains race and sprint results, not qualifying, free practice, testing, or other sessions which do not award championship points.

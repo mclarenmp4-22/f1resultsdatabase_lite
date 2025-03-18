@@ -7,4 +7,8 @@ If there's an error in the database, or you just want to initiallise it, run res
 
 The data for this database is sourced from [GP Racing Stats](https://gpracingstats.com/).
 
-**Limitations:** It only contains race and sprint results, not qualifying, free practice, testing, or other sessions which do not award championship points.
+**Limitations:** 
+- It only contains race and sprint results, not qualifying, free practice, testing, or other sessions which do not award championship points.
+- This is *very* dependent on GP Racing Stats. If they don't update the result, it doesn't come here.
+  
+ 

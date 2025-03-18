@@ -95,7 +95,7 @@ for team in teams:
 triggered = False
 triggered2 = False
 #we need to find the current gp and skip all of them because i'm not interested in waiting 15 minutes every time i run this code
-select = cur.execute ('SELECT GrandPrix from GrandsPrix ORDER BY GrandPrix DESC LIMIT 1') #selects the most recent Grand Prix
+select = cur.execute ('SELECT GrandPrix from GrandsPrix ORDER BY GPID DESC LIMIT 1') #selects the most recent Grand Prix
 rows = select.fetchall()
 if len(rows) == 0:
     lastgp = None    #start from the first race

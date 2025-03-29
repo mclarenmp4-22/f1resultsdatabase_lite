@@ -22,20 +22,28 @@ import sqlite3 #to store data
 import urllib.request, urllib.parse, urllib.error #to connect with the internet
 from bs4 import BeautifulSoup #for web scraping
 import re
+from datetime import date
 
 
-conn = sqlite3.connect('sessionresults.db') #connects to the database
+conn = sqlite3.connect('py/sessionresults.db') #connects to the database
 cur = conn.cursor() #cursor object
 
 #example link: https://gpracingstats.com/seasons/2019-world-championship/2019-chinese-grand-prix/
 #get races: https://gpracingstats.com/seasons/2019-world-championship/
-
+todays_date = date.today()
+yearnow = todays_date.year
 html = urllib.request.urlopen("https://gpracingstats.com/seasons/").read() #open the website with all f1 seasons to loop through the seasons
 soup = BeautifulSoup(html, 'html.parser') #initialize the soup object
 tags = soup('table') #find the seasons table
 #print (str(tags[0]))
 soup = BeautifulSoup(str(tags[0]), 'html.parser')
 tag2 = soup ('a') #find all the links in this
+'''
+What I plan on doing:
+If year is more than last updated year,
+that is, if the last race updated is 2024 and the current year is 2025, append https://gpracingstats.com/seasons/2025-world-championship to tag2[::-1]
+'''
+#urllib.request.urlopen("https://gpracingstats.com/seasons/2026-world-championship").read() #open the website with all f1 seasons to loop through the seasons
 def extract_engine(team_name):
     # Check for "(privateer)" and remove it
     is_privateer = "(privateer)" in team_name
@@ -101,6 +109,7 @@ if len(rows) == 0:
     lastgp = None    #start from the first race
 else:    
     lastgp = rows[0][0] #stores the most recent Grand Prix in a variable
+    print (lastgp)
 #lastgp = '2024-miami-grand-prix-sprint' #for testing purposes 
 if lastgp != None:  
     if lastgp.endswith('-sprint'):
@@ -115,7 +124,9 @@ if lastgp != None:
                 match = re.match(r"^https://gpracingstats\.com/seasons/(\d{4}-[\w-]+)/?$", year)
                 if match and match.group(1):  
                     neededyear = year  
-                    #theactualyear =  match.group(1)[0:4]
+                    theactualyear =  int(match.group(1)[0:4])
+                    if yearnow > int(theactualyear):
+                        tag2.insert(0, f"https://gpracingstats.com/seasons/{year}-world-championship/")
 else:
     neededyear = 'https://gpracingstats.com/seasons/1950-world-championship/'
     #theactualyear = '1950'  
@@ -128,14 +139,21 @@ else:
 #time to do a lot of web scraping
 tablecount = 0 #to find whether it is a sprint...
 for tag in tag2[::-1]:  # [::-1] reverses the list so we can start from 1950 and stop at the current season
-    link = tag.get('href', None)  # get the link
+    try:
+        link = tag.get('href', None)  # get the link
+    except:
+        break    
     if link is not None and link.startswith('https://gpracingstats.com/seasons/'):  # if it is a season link
         if link == neededyear:
             triggered = True        
         elif link != neededyear and triggered == False:
             print (f"Skipping {link}")
             continue
-        html = urllib.request.urlopen(link).read()  # open the season link
+        try:
+            html = urllib.request.urlopen(link).read()  # open the season link
+        except urllib.error.HTTPError as e:
+            print(f"HTTPError: {e.code} for {link}")
+            continue
         soup = BeautifulSoup(html, 'html.parser')  # initialize the soup object
         tags = soup('table')  # find all tables
         for tag in tags:  # loop through all tables

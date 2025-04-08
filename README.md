@@ -12,5 +12,11 @@ The database available for download from here was last updated at the **2024 Abu
 **Limitations:** 
 - It only contains race and sprint results, not qualifying, free practice, testing, or other sessions which do not award championship points.
 - This is *very* dependent on GP Racing Stats. If they don't update the result, it doesn't come here.
+
+## Known errors:
+- For some reason, there are duplicate records for some races in 2022.
+- I need to fix handling of Mugen-Honda.
+
+
   
  

@@ -1,3 +1,8 @@
+#IMPORTANT:
+GP Racing Stats has prevented scraping. This repository will no longer be supported or updated. Please move to [https://github.com/mclarenmp4-22/f1resultsdatabase](https://github.com/mclarenmp4-22/f1resultsdatabase). 
+
+
+
 What was the last time a shared car was used in F1? What was Williams' average race finishing position from 1992-1997? 
 
 With this database, you can answer all these questions and do a lot more cool things with this data. It's 75 years of Formula One history, all in 1 MB.
